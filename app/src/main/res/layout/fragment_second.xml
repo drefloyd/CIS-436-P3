@@ -2,34 +2,71 @@
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/SecondFragmentScrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
     tools:context=".SecondFragment">
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="16dp">
+        android:layout_height="match_parent">
 
-        <Button
-            android:id="@+id/button_second"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/previous"
-            app:layout_constraintBottom_toTopOf="@id/textview_second"
+
+        <ImageView
+            android:id="@+id/ivCatPic"
+            android:layout_width="176dp"
+            android:layout_height="103dp"
+            android:layout_marginBottom="45dp"
+            android:contentDescription="@string/image_view_for_cat_pictures"
+            android:src="@drawable/catpic"
+            app:layout_constraintBottom_toTopOf="@+id/tvCatName"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+
         <TextView
-            android:id="@+id/textview_second"
+            android:id="@+id/tvCatName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/lorem_ipsum"
+            android:text="@string/Cat_Name"
+            app:layout_constraintBottom_toTopOf="@+id/tvCatTemperament"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivCatPic" />
+
+
+        <TextView
+            android:id="@+id/tvCatTemperament"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:text="@string/Cat_Temperament"
+            app:layout_constraintBottom_toTopOf="@+id/tvCatOrigin"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvCatName" />
+
+
+        <TextView
+            android:id="@+id/tvCatOrigin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="116dp"
+            android:text="@string/Cat_Origin"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/button_second" />
+            app:layout_constraintTop_toBottomOf="@+id/tvCatTemperament"
+            app:layout_constraintVertical_bias="0.06" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>
