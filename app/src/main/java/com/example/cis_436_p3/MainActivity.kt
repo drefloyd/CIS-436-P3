@@ -12,12 +12,12 @@ import org.json.JSONArray
 import org.json.JSONObject
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), FirstFragment.OnBreedSelectedListener {
 
 
     private lateinit var binding: ActivityMainBinding
 
-    private val catNamesList = mutableListOf<String>()
+    private val catBreedsList = mutableListOf<String>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity() {
                     // gets a specific cat
                     var theCat : JSONObject = catsArray.getJSONObject(i)
                     val catName = theCat.getString("name")
-                    catNamesList.add(catName)
+                    catBreedsList.add(catName)
 
                     // gets name and description for each cat
                     Log.i("MainActivity", "Cat Name: ${theCat.getString("name")}")
@@ -64,12 +64,16 @@ class MainActivity : AppCompatActivity() {
                 Log.i("MainActivity", response.toString())
                 val firstFragment =
                     supportFragmentManager.findFragmentById(R.id.FirstFragmentContainerView) as FirstFragment
-                firstFragment.populateDropDown(catNamesList)
+                firstFragment.populateDropDown(catBreedsList)
             },
             {
                 Log.i("MainActivity", "That did not work.") })
 
 
         queue.add(stringRequest)
+    }
+
+    override fun onBreedSelected(selectedBreed: String) {
+        Log.i("MainActivity", "Selected breed: $selectedBreed")
     }
 }
