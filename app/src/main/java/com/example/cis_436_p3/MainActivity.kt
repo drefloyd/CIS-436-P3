@@ -17,6 +17,8 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
+    private val catNamesList = mutableListOf<String>()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +53,8 @@ class MainActivity : AppCompatActivity() {
 
                     // gets a specific cat
                     var theCat : JSONObject = catsArray.getJSONObject(i)
-
+                    val catName = theCat.getString("name")
+                    catNamesList.add(catName)
 
                     // gets name and description for each cat
                     Log.i("MainActivity", "Cat Name: ${theCat.getString("name")}")
@@ -59,6 +62,9 @@ class MainActivity : AppCompatActivity() {
                             "${theCat.getString("description")}")
                 }
                 Log.i("MainActivity", response.toString())
+                val firstFragment =
+                    supportFragmentManager.findFragmentById(R.id.FirstFragmentContainerView) as FirstFragment
+                firstFragment.populateDropDown(catNamesList)
             },
             {
                 Log.i("MainActivity", "That did not work.") })
