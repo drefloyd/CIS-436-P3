@@ -19,6 +19,10 @@ class MainActivity : AppCompatActivity(), FirstFragment.OnBreedSelectedListener 
 
     private val catBreedsList = mutableListOf<String>()
 
+    private val catTemperamentList = mutableListOf<String>()
+
+    private val catOriginList = mutableListOf<String>()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,8 +57,15 @@ class MainActivity : AppCompatActivity(), FirstFragment.OnBreedSelectedListener 
 
                     // gets a specific cat
                     var theCat : JSONObject = catsArray.getJSONObject(i)
+
                     val catName = theCat.getString("name")
                     catBreedsList.add(catName)
+
+                    val catTemperament = theCat.getString("temperament")
+                    catTemperamentList.add(catTemperament)
+
+                    val catOrigin = theCat.getString("origin")
+                    catOriginList.add(catOrigin)
 
                     // gets name and description for each cat
                     Log.i("MainActivity", "Cat Name: ${theCat.getString("name")}")
@@ -74,6 +85,16 @@ class MainActivity : AppCompatActivity(), FirstFragment.OnBreedSelectedListener 
     }
 
     override fun onBreedSelected(selectedBreed: String) {
+        val frag2 = supportFragmentManager.findFragmentById(R.id.SecondFragmentContainerView) as SecondFragment
+
         Log.i("MainActivity", "Selected breed: $selectedBreed")
+
+        val index = catBreedsList.indexOf(selectedBreed)
+
+        val temperament = catTemperamentList[index]
+
+        val origin = catOriginList[index]
+
+        frag2.recieveData(selectedBreed,temperament, origin)
     }
 }

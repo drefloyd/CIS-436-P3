@@ -37,4 +37,10 @@ class SecondFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
+    fun recieveData(breed: String, temper: String, origin: String){
+        binding.tvCatName.setText(breed)//set text
+        binding.tvCatTemperament.setText(temper)//set text
+        binding.tvCatOrigin.setText(origin)//set text
+    }
 }
