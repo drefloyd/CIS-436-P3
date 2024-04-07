@@ -14,7 +14,6 @@ import org.json.JSONObject
 
 class MainActivity : AppCompatActivity(), FirstFragment.OnBreedSelectedListener {
 
-
     private lateinit var binding: ActivityMainBinding
 
     private val catBreedsList = mutableListOf<String>()
@@ -23,37 +22,31 @@ class MainActivity : AppCompatActivity(), FirstFragment.OnBreedSelectedListener 
 
     private val catOriginList = mutableListOf<String>()
 
+    private val catImageIdList = mutableListOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
 
         binding.btnGetCatData.setOnClickListener{
             printCatData()
         }
     }
 
-
     fun printCatData(){
-        var catURL = "https://api.thecatapi.com/v1/breeds" +
+        val catURL = "https://api.thecatapi.com/v1/breeds" +
                 "?api_key=live_dQlJg5Hpf9ynJf99MgbIurFObl3wJkQ5u6DN2fBq0UbdprcAEVVhXlAU7r9yX09d"
 
-
         val queue = Volley.newRequestQueue(this)
-
 
         val stringRequest = StringRequest(
             Request.Method.GET, catURL,
             { response ->
-                var catsArray : JSONArray = JSONArray(response)
-
+                val catsArray : JSONArray = JSONArray(response)
 
                 for (i in 0 until catsArray.length()){  // index for cat array
-
 
                     // gets a specific cat
                     var theCat : JSONObject = catsArray.getJSONObject(i)
@@ -67,10 +60,14 @@ class MainActivity : AppCompatActivity(), FirstFragment.OnBreedSelectedListener 
                     val catOrigin = theCat.getString("origin")
                     catOriginList.add(catOrigin)
 
-                    // gets name and description for each cat
+                    val catImageId = theCat.optString("reference_image_id", "")
+                    catImageIdList.add(catImageId)
+
+                    // display to log each cat info
                     Log.i("MainActivity", "Cat Name: ${theCat.getString("name")}")
-                    Log.i("MainActivity", "Cat Description: " +
-                            "${theCat.getString("description")}")
+                    Log.i("MainActivity", "Cat Temperament: ${theCat.getString("temperament")}")
+                    Log.i("MainActivity", "Cat Origin: ${theCat.getString("origin")}")
+
                 }
                 Log.i("MainActivity", response.toString())
                 val firstFragment =
@@ -78,8 +75,7 @@ class MainActivity : AppCompatActivity(), FirstFragment.OnBreedSelectedListener 
                 firstFragment.populateDropDown(catBreedsList)
             },
             {
-                Log.i("MainActivity", "That did not work.") })
-
+                Log.i("MainActivity", "Volley error.") })
 
         queue.add(stringRequest)
     }
@@ -95,6 +91,25 @@ class MainActivity : AppCompatActivity(), FirstFragment.OnBreedSelectedListener 
 
         val origin = catOriginList[index]
 
-        frag2.recieveData(selectedBreed,temperament, origin)
+        val imageId = catImageIdList[index]
+        val imageUrlRequest = "https://api.thecatapi.com/v1/images/$imageId"
+
+        val queue = Volley.newRequestQueue(this)
+
+        val stringRequest = StringRequest(Request.Method.GET, imageUrlRequest,
+            { response ->
+                // Response Parsing to get the image URL
+                val jsonResponse = JSONObject(response)
+                val imageUrl = jsonResponse.getString("url")
+
+                // successfully pass all data
+                frag2.receiveData(selectedBreed, temperament, origin, imageUrl)
+            },
+            { error ->
+                // Handle error
+                Log.e("MainActivity", "Error fetching image URL: $error")
+            })
+
+        queue.add(stringRequest)
     }
 }

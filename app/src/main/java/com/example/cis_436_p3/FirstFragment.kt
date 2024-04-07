@@ -24,8 +24,6 @@ class FirstFragment : Fragment() {
         fun onBreedSelected(selectedBreed: String)
     }
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreateView(

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.example.cis_436_p3.databinding.FragmentSecondBinding
 
 /**
@@ -15,8 +16,6 @@ class SecondFragment : Fragment() {
 
     private var _binding: FragmentSecondBinding? = null
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -38,9 +37,16 @@ class SecondFragment : Fragment() {
         _binding = null
     }
 
-    fun recieveData(breed: String, temper: String, origin: String){
+    fun receiveData(breed: String, temper: String, origin: String, imageURL: String){
         binding.tvCatName.setText(breed)//set text
         binding.tvCatTemperament.setText(temper)//set text
         binding.tvCatOrigin.setText(origin)//set text
+
+        // Loads the image from a URL to the ImageView
+        context?.let {
+            Glide.with(it)
+                .load(imageURL)
+                .into(binding.ivCatPic)
+        }
     }
 }
