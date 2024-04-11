@@ -17,11 +17,8 @@ class MainActivity : AppCompatActivity(), FirstFragment.OnBreedSelectedListener 
     private lateinit var binding: ActivityMainBinding
 
     private val catBreedsList = mutableListOf<String>()
-
     private val catTemperamentList = mutableListOf<String>()
-
     private val catOriginList = mutableListOf<String>()
-
     private val catImageIdList = mutableListOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,7 +32,7 @@ class MainActivity : AppCompatActivity(), FirstFragment.OnBreedSelectedListener 
         }
     }
 
-    fun printCatData(){
+    private fun printCatData(){
         val catURL = "https://api.thecatapi.com/v1/breeds" +
                 "?api_key=live_dQlJg5Hpf9ynJf99MgbIurFObl3wJkQ5u6DN2fBq0UbdprcAEVVhXlAU7r9yX09d"
 
@@ -63,16 +60,13 @@ class MainActivity : AppCompatActivity(), FirstFragment.OnBreedSelectedListener 
                     val catImageId = theCat.optString("reference_image_id", "")
                     catImageIdList.add(catImageId)
 
-                    // display to log each cat info
-                    Log.i("MainActivity", "Cat Name: ${theCat.getString("name")}")
-                    Log.i("MainActivity", "Cat Temperament: ${theCat.getString("temperament")}")
-                    Log.i("MainActivity", "Cat Origin: ${theCat.getString("origin")}")
-
                 }
-                Log.i("MainActivity", response.toString())
+
+                // Send cat breeds to first fragment to populate the dropdown
                 val firstFragment =
                     supportFragmentManager.findFragmentById(R.id.FirstFragmentContainerView) as FirstFragment
                 firstFragment.populateDropDown(catBreedsList)
+
             },
             {
                 Log.i("MainActivity", "Volley error.") })
@@ -83,14 +77,9 @@ class MainActivity : AppCompatActivity(), FirstFragment.OnBreedSelectedListener 
     override fun onBreedSelected(selectedBreed: String) {
         val frag2 = supportFragmentManager.findFragmentById(R.id.SecondFragmentContainerView) as SecondFragment
 
-        Log.i("MainActivity", "Selected breed: $selectedBreed")
-
         val index = catBreedsList.indexOf(selectedBreed)
-
         val temperament = catTemperamentList[index]
-
         val origin = catOriginList[index]
-
         val imageId = catImageIdList[index]
         val imageUrlRequest = "https://api.thecatapi.com/v1/images/$imageId"
 

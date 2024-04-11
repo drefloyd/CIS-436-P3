@@ -9,12 +9,8 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
-import androidx.navigation.fragment.findNavController
 import com.example.cis_436_p3.databinding.FragmentFirstBinding
 
-/**
- * A simple [Fragment] subclass as the default destination in the navigation.
- */
 class FirstFragment : Fragment() {
 
     private var _binding: FragmentFirstBinding? = null
@@ -58,12 +54,11 @@ class FirstFragment : Fragment() {
     }
 
     fun populateDropDown(catBreedsList : List<String>){
+
+        // Set up spinner with a dropdown list of cat breeds
         val spinner = binding.root.findViewById<Spinner>(R.id.catsSpinner)
-        // Create an ArrayAdapter using the list and a default spinner layout
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, catBreedsList)
-        // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        // Apply the adapter to the spinner
         spinner.adapter = adapter
 
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
